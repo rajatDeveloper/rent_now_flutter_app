@@ -1,6 +1,7 @@
 //interface
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:rent_now/base/base_service.dart';
 import 'package:rent_now/core/error/exception.dart';
@@ -40,14 +41,14 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
       };
 
       NetworkRequest request = NetworkRequest(
-        "$baseUrl$loginUrl",
+        "$loginUrl",
         RequestMethod.post,
         data: jsonEncode(data),
         headers: base.getHeaders(),
       );
 
       final result = await NetworkManager.instance.perform<UserModel>(request);
-
+      log("Error : ${result.error!.errorMsg}");
       if (result.json != null) {
         var userMap = result.json;
 
@@ -75,7 +76,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
       };
 
       NetworkRequest request = NetworkRequest(
-        "$baseUrl$registerUrl",
+        "$registerUrl",
         RequestMethod.post,
         data: jsonEncode(data),
         headers: base.getHeaders(),
