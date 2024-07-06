@@ -22,12 +22,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthLoginEvent>((event, emit) async {
-      print("in login 1");
       await _onAuthLogin(event, emit);
     });
 
     on<AuthRegisterEvent>((event, emit) async {
-      await _onAuthRegister;
+      await _onAuthRegister(event, emit);
     });
   }
   Future<void> _onAuthRegister(
@@ -48,14 +47,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthLogin(
       AuthLoginEvent event, Emitter<AuthState> emit) async {
-    print("in login 2");
     emit(AuthLoading());
-    print("in login 3");
+
     final res = await _userLogin(UserLoginParams(
       username: event.username,
       password: event.password,
     ));
-    print("in login 4 ");
+
     res.fold(
       (failure) => emit(AuthFailure(message: failure.message)),
       (user) => emit(AuthSuccess(user: user)),

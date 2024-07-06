@@ -48,14 +48,14 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
       );
 
       final result = await NetworkManager.instance.perform<UserModel>(request);
-      log("Error : ${result.error!.errorMsg}");
-      if (result.json != null) {
-        var userMap = result.json;
 
-        return UserModel.fromJson(userMap);
-      } else {
-        throw const ServerException("Server Error");
-      }
+      result.handleResponse(onSuccess: () {
+        return UserModel.fromJson(result.json);
+      }, onFailed: () {
+        throw ServerException(result.error!.errorMsg);
+      });
+
+      throw const ServerException("Server Error");
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -84,13 +84,13 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
 
       final result = await NetworkManager.instance.perform<UserModel>(request);
 
-      if (result.json != null) {
-        var userMap = result.json;
+      result.handleResponse(onSuccess: () {
+        return UserModel.fromJson(result.json);
+      }, onFailed: () {
+        throw ServerException(result.error!.errorMsg);
+      });
 
-        return UserModel.fromJson(userMap);
-      } else {
-        throw const ServerException("Server Error");
-      }
+      throw const ServerException("Server Error");
     } catch (e) {
       throw ServerException(e.toString());
     }
