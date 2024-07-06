@@ -87,8 +87,8 @@ class NetworkManager {
     String errorMsg = "Network error";
     dynamic extra;
     if (dioError.response?.data != null && dioError.response?.data is Map) {
-      errorMsg =
-          dioError.response?.data["message"].toString() ?? "Network error";
+      errorMsg = dioError.response?.data["error"].toString() ??
+          dioError.response!.data.toString();
       extra = dioError.response?.data["errors"];
     }
     if (dioError.response?.statusCode == 401) {

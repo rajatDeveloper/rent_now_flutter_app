@@ -1,4 +1,4 @@
-class ServerException implements Exception {
+class ServerExceptionRentNow implements Exception {
   final String message;
-  const ServerException(this.message);
+  const ServerExceptionRentNow(this.message);
 }

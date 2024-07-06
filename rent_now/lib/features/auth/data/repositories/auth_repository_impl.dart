@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:fpdart/fpdart.dart';
 
 import 'package:rent_now/core/const/keys.dart';
@@ -26,8 +27,9 @@ class AuthRepositoryImpl implements AuthRepository {
       setDataToLocal(key: userKey, value: userMap);
 
       return right(res);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on ServerExceptionRentNow catch (e) {
+      log(e.message);
+      return left(Failure("Error: ${e.message}"));
     } catch (e) {
       return left(Failure(e.toString()));
     }
@@ -48,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final userMap = jsonEncode(res.toMap());
       setDataToLocal(key: userKey, value: userMap);
       return right(res);
-    } on ServerException catch (e) {
+    } on ServerExceptionRentNow catch (e) {
       return left(Failure(e.message));
     } catch (e) {
       return left(Failure(e.toString()));
