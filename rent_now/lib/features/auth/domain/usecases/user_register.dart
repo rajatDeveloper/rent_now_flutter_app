@@ -1,10 +1,11 @@
 import 'package:rent_now/core/error/failure.dart';
 import 'package:rent_now/core/usecase/usecase.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:rent_now/features/auth/domain/entities/User.dart';
+import 'package:rent_now/features/auth/data/models/user_model.dart';
+
 import 'package:rent_now/features/auth/domain/repository/auth_repository.dart';
 
-class UserRegister implements UseCase<User, UserRegisterParams> {
+class UserRegister implements UseCase<UserModel, UserRegisterParams> {
   final AuthRepository _authRepository;
 
   const UserRegister({
@@ -12,7 +13,7 @@ class UserRegister implements UseCase<User, UserRegisterParams> {
   }) : _authRepository = authRepository;
 
   @override
-  Future<Either<Failure, User>> call(UserRegisterParams parms) async {
+  Future<Either<Failure, UserModel>> call(UserRegisterParams parms) async {
     return await _authRepository.registerWithEmailAndPassword(
         username: parms.username,
         email: parms.email,

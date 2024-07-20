@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 CustomElevatedBtn(
                   text: "Login",
                   onPressed: () {
-                    print("Working");
+                    // print("Working");
                     context.read<AuthBloc>().add(AuthLoginEvent(
                         username: _usernameController.text,
                         password: _passwordController.text));

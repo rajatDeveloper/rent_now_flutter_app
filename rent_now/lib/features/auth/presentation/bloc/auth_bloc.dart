@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rent_now/features/auth/domain/entities/User.dart';
+import 'package:rent_now/features/auth/data/models/user_model.dart';
+
 import 'package:rent_now/features/auth/domain/usecases/user_login.dart';
 import 'package:rent_now/features/auth/domain/usecases/user_register.dart';
 

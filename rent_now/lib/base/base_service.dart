@@ -8,14 +8,14 @@ class BaseService {
     };
   }
 
-  // Map<String, String> getAuthorizationHeaders() {
-  //   log("Token of user ${StaticConstData.user!.token}");
-  //   return {
-  //     "Accept": "application/json",
-  //     "Content-Type": "application/json",
-  //     "Authorization": "Token ${StaticConstData.user!.token}"
-  //   };
-  // }
+  Map<String, String> getAuthorizationHeaders({required String token}) {
+    log("Token of user $token");
+    return {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Token $token"
+    };
+  }
 
   // Map<String, String> getAuthorizationHeadersWithMultiMediaType() {
   //   log("Token of user ${StaticConstData.user!.token}");

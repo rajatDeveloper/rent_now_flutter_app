@@ -7,7 +7,8 @@ import 'package:rent_now/core/error/exception.dart';
 import 'package:rent_now/core/error/failure.dart';
 import 'package:rent_now/core/utils/use_full_functions.dart';
 import 'package:rent_now/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:rent_now/features/auth/domain/entities/User.dart';
+import 'package:rent_now/features/auth/data/models/user_model.dart';
+
 import 'package:rent_now/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -16,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.authRemoteDataSource);
 
   @override
-  Future<Either<Failure, User>> loginWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> loginWithEmailAndPassword(
       {required String username, required String password}) async {
     try {
       var res = await authRemoteDataSource.loginWithEmailAndPassword(
@@ -36,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> registerWithEmailAndPassword(
+  Future<Either<Failure, UserModel>> registerWithEmailAndPassword(
       {required String username,
       required String email,
       required String password,
