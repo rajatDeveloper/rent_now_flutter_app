@@ -17,7 +17,13 @@ import 'package:rent_now/features/rent_post/data/repositories/rent_post_repo_imp
 import 'package:rent_now/features/rent_post/domain/repository/rent_post_repo.dart';
 import 'package:rent_now/features/rent_post/domain/usecases/get_all_categories.dart';
 import 'package:rent_now/features/rent_post/domain/usecases/get_all_rent_post.dart';
+import 'package:rent_now/features/rent_post/domain/usecases/get_my_rent_post.dart';
 import 'package:rent_now/features/rent_post/presentation/bloc/rent_post_bloc.dart';
+import 'package:rent_now/features/rent_request/data/datasources/rent_request_type_datasource.dart';
+import 'package:rent_now/features/rent_request/data/repositories/rent_request_repo_impl.dart';
+import 'package:rent_now/features/rent_request/domain/repository/rent_rerquest_type_repo.dart';
+import 'package:rent_now/features/rent_request/domain/usecases/create_rent_request_type.dart';
+import 'package:rent_now/features/rent_request/presentation/bloc/rent_request_type_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -25,6 +31,22 @@ Future<void> initDependencies() async {
   _initAuth();
   _initRentPost();
   _addressInit();
+  _initRentRequestType();
+}
+
+void _initRentRequestType() {
+  serviceLocator
+
+    //Data Sources
+    ..registerFactory<RentRequestTypeDatasource>(
+        () => RentRequestTypeDatasourceImpl(serviceLocator()))
+    //Reporitories
+    ..registerFactory<RentRequestTypeRepo>(
+        () => RentRequestRepoImpl(serviceLocator()))
+    //Usecases
+    ..registerFactory(() => CreateRentRequestType(serviceLocator()))
+    //bloc
+    ..registerFactory(() => RentRequestTypeBloc(serviceLocator()));
 }
 
 void _addressInit() {
@@ -54,9 +76,12 @@ void _initRentPost() {
     //Usecases
     ..registerFactory(() => GetAllCategories(rentPostRepo: serviceLocator()))
     ..registerFactory(() => GetAllRentPost(rentPostRepo: serviceLocator()))
+    ..registerFactory(() => GetMyRentPost(rentPostRepo: serviceLocator()))
     //bloc
     ..registerFactory(() => RentPostBloc(
-        getAllCategories: serviceLocator(), getAllRentPost: serviceLocator()));
+        getMyRentPost: serviceLocator(),
+        getAllCategories: serviceLocator(),
+        getAllRentPost: serviceLocator()));
 }
 
 void _initAuth() {

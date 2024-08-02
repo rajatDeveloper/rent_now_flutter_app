@@ -4,3 +4,4 @@ const String registerUrl = "register/";
 const String loginUrl = "login/";
 const String allRentPostUrl = "rent-posts/";
 const String allCategoryUrl = "categories/";
+const String createRentRequestTypeUrl = "rent-request/";

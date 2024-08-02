@@ -194,6 +194,7 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
                             tapOn: null,
                           ),
                           CustomTextField(
+                            maxLines: 3,
                             textColor: Colors.black,
                             activeTextColor: Colors.blue,
                             backgroundColor: Colors.transparent,
@@ -202,7 +203,7 @@ class _CreateAddressPageState extends State<CreateAddressPage> {
                             node: _addressFocusNode,
                             hintText: 'Address',
                             isNum: false,
-                            maxLength: 50,
+                            maxLength: 100,
                             isPassword: false,
                             autofillHints: null,
                             nextNode: null,

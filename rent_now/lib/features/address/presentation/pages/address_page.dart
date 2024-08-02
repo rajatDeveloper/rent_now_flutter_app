@@ -51,6 +51,7 @@ class _AddressPageState extends State<AddressPage> {
             }
 
             if (state is AddressLoaded) {
+              StaticData.adddressList = state.addressList;
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

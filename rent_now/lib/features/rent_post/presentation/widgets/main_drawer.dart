@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rent_now/features/address/presentation/pages/address_page.dart';
+import 'package:rent_now/features/rent_post/presentation/pages/my_rent_post_page.dart';
 
 class DrawerMain extends StatefulWidget {
   const DrawerMain({super.key});
@@ -29,7 +30,7 @@ class _DrawerMainState extends State<DrawerMain> {
           ListTile(
             title: const Text('My Rent Post'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, MyRentPostPage.routeName);
             },
           ),
           ListTile(

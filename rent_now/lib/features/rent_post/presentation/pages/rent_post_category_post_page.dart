@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rent_now/core/const/static_data.dart';
 import 'package:rent_now/features/rent_post/data/models/category_model.dart';
 import 'package:rent_now/features/rent_post/presentation/bloc/rent_post_bloc.dart';
+import 'package:rent_now/features/rent_post/presentation/widgets/rent_post_card.dart';
 
 class CategoryRentPostPage extends StatefulWidget {
   static const routeName = '/category_rent_post_page';
@@ -32,7 +33,10 @@ class _CategoryRentPostPageState extends State<CategoryRentPostPage> {
         ),
         body: BlocConsumer<RentPostBloc, RentPostState>(
           listener: (context, state) {
-            // TODO: implement listener
+            if (state is RentPostFailure) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.message)));
+            }
           },
           builder: (context, state) {
             if (state is GetAllRentPostLoading) {
@@ -40,24 +44,22 @@ class _CategoryRentPostPageState extends State<CategoryRentPostPage> {
             }
 
             if (state is GetAllRentPostCategorySuccess) {
-              return ListView.builder(
-                itemCount: state.rentPosts.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text(state.rentPosts[index].title),
-                        Text(state.rentPosts[index].description),
-                        Text(state.rentPosts[index].rent_request.length
-                            .toString()),
-                      ],
-                    ),
-                  );
-                },
-              );
+              StaticData.catListData = state.rentPosts;
+
+              return const Center(child: CircularProgressIndicator());
             }
 
-            return SizedBox();
+            return StaticData.catListData != null
+                ? ListView.builder(
+                    itemCount: StaticData.catListData!.length,
+                    itemBuilder: (context, index) {
+                      return RentPostCard(
+                          rentPostModel: StaticData.catListData![index]);
+                    },
+                  )
+                : const Center(
+                    child: Text("No Rent Post"),
+                  );
           },
         ));
   }

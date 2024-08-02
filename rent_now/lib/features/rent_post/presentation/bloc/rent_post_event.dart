@@ -20,3 +20,10 @@ final class GetAllRentPostOfCategoryEvent extends RentPostEvent {
   GetAllRentPostOfCategoryEvent(
       {required this.category, required this.pin_code, required this.token});
 }
+
+final class GetMyRentPostEvent extends RentPostEvent {
+  final String token;
+  final String userId;
+
+  GetMyRentPostEvent({required this.token, required this.userId});
+}

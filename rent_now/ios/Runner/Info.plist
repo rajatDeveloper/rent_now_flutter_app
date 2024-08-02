@@ -26,6 +26,20 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<!-- camer  -->
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is used to capture your profile picture</string>
+	<!-- gallery -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gallery is used to select your profile picture</string>
+	<!-- location -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location is used to fetch your current location</string>
+	<key>NSLocationAlwaysUsageDescription</key>	
+	<string>Location is used to fetch your current location</string>
+	<!-- microphinoe -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone is used to record your voice</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

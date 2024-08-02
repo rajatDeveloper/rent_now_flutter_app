@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -35,4 +38,16 @@ Future<String> getSavedDataByKey({required String key}) async {
 Future<void> removeDataByKey({required String key}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove(key);
+}
+
+// //to fet image from gallery and camera
+Future<File?> pickImageAndReturnImg({required ImageSource imageType}) async {
+  try {
+    final pickedImage =
+        await ImagePicker().pickImage(source: imageType, imageQuality: 30);
+
+    return File(pickedImage!.path);
+  } catch (e) {
+    return null;
+  }
 }

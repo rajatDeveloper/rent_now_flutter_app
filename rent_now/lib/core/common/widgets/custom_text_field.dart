@@ -15,10 +15,12 @@ class CustomTextField extends StatefulWidget {
   final Color textFieldTextColor; // Added parameter for text color in TextField
   final bool isWritable; // Added parameter for whether the field is writable
   Function(String val)? onChange;
+  final int? maxLines;
 
   CustomTextField({
     super.key,
     required this.controller,
+    this.maxLines,
     this.onChange,
     this.hintText,
     this.tapOn,
@@ -81,6 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
           },
           maxLength: widget.maxLength,
+          maxLines: widget.maxLines ?? 1,
           keyboardType:
               widget.isNum ? TextInputType.number : TextInputType.text,
           controller: widget.controller,
@@ -118,6 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             filled: true,
             fillColor: widget.backgroundColor,
             hintText: '',
+
             hintStyle: const TextStyle(color: Colors.black),
             enabledBorder: OutlineInputBorder(
               borderRadius:

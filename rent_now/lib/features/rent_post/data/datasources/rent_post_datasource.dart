@@ -16,12 +16,16 @@ abstract interface class RentPostDatasource {
       required String token});
 
   Future<List<CategoryModel>> getAllCategory({required String token});
+
+  Future<List<RentPostModel>> getMyRentPost(
+      {required String token, required String userId});
 }
 
 class RentPostDatasourceImpl implements RentPostDatasource {
   final BaseService base;
 
   RentPostDatasourceImpl(this.base);
+
   @override
   Future<List<RentPostModel>> getAllRentPost(
       {required String category,
@@ -85,6 +89,40 @@ class RentPostDatasourceImpl implements RentPostDatasource {
         catList.add(CategoryModel.fromMap(element));
       });
       return catList;
+    } on ApplicationError catch (e) {
+      throw ServerExceptionRentNow(e.errorMsg);
+    } on ServerExceptionRentNow catch (e) {
+      log("catch error ${e.toString()}");
+      throw ServerExceptionRentNow(e.message);
+    } catch (e) {
+      throw ServerExceptionRentNow(e.toString());
+    }
+  }
+
+  @override
+  Future<List<RentPostModel>> getMyRentPost(
+      {required String token, required String userId}) async {
+    try {
+      NetworkRequest request = NetworkRequest(
+        "users/$userId/rent-post/",
+        RequestMethod.get,
+        headers: base.getAuthorizationHeaders(token: token),
+      );
+
+      final result =
+          await NetworkManager.instance.perform<List<RentPostModel>>(request);
+
+      if (result.error != null) {
+        throw ServerExceptionRentNow(result.error!.errorMsg);
+      }
+
+      var dataMap = result.json;
+
+      List<RentPostModel> rentPostList = [];
+      dataMap.forEach((element) {
+        rentPostList.add(RentPostModel.fromMap(element));
+      });
+      return rentPostList;
     } on ApplicationError catch (e) {
       throw ServerExceptionRentNow(e.errorMsg);
     } on ServerExceptionRentNow catch (e) {

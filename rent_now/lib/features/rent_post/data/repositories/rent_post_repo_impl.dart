@@ -47,4 +47,19 @@ class RentPostRepoImpl implements RentPostRepo {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<RentPostModel>>> getMyRentPost(
+      {required String token, required String userId}) async {
+    try {
+      var res =
+          await rentPostDatasource.getMyRentPost(token: token, userId: userId);
+      return right(res);
+    } on ServerExceptionRentNow catch (e) {
+      log(e.message);
+      return left(Failure("Error: ${e.message}"));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

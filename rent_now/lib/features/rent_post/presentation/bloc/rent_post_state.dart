@@ -7,6 +7,8 @@ final class RentPostInitial extends RentPostState {}
 
 final class GetAllRentPostLoading extends RentPostState {}
 
+final class GetMyRentPostLoading extends RentPostState {}
+
 final class GetAllRentPostSuccess extends RentPostState {
   final List<RentPostModel> rentPosts;
 
@@ -23,4 +25,10 @@ final class GetAllRentPostCategorySuccess extends RentPostState {
   final List<RentPostModel> rentPosts;
 
   GetAllRentPostCategorySuccess({required this.rentPosts});
+}
+
+final class GetMyRentPostSuccess extends RentPostState {
+  final List<RentPostModel> rentPosts;
+
+  GetMyRentPostSuccess({required this.rentPosts});
 }

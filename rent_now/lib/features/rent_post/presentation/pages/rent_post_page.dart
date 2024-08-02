@@ -1,10 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rent_now/core/const/keys.dart';
 import 'package:rent_now/core/const/static_data.dart';
 import 'package:rent_now/core/utils/use_full_functions.dart';
+import 'package:rent_now/features/address/presentation/bloc/address_bloc.dart';
 import 'package:rent_now/features/auth/presentation/pages/splash_page.dart';
 import 'package:rent_now/features/rent_post/presentation/bloc/rent_post_bloc.dart';
 import 'package:rent_now/features/rent_post/presentation/widgets/category_card.dart';
@@ -24,11 +27,6 @@ class _RentPostPageState extends State<RentPostPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //lunch event of get all rent post and category
-
-    // context.read<RentPostBloc>().add(GetAllCategoriesEvent(
-    //       token: StaticData.user!.token,
-    //     ));
 
     context.read<RentPostBloc>().add(GetAllRentPostEvent(
           category: "",
@@ -72,10 +70,18 @@ class _RentPostPageState extends State<RentPostPage> {
                 );
               }
 
-              if (state is GetAllRentPostCategorySuccess) {}
-
-              if (state is GetAllRentPostSuccess ||
+              if (state is GetMyRentPostSuccess ||
                   state is GetAllRentPostCategorySuccess) {
+                context.read<RentPostBloc>().add(GetAllRentPostEvent(
+                      category: "",
+                      pin_code: "",
+                      token: StaticData.user!.token,
+                    ));
+              }
+
+              log("rent post state is $state");
+
+              if (state is GetAllRentPostSuccess) {
                 return Column(
                   children: [
                     const Text(
@@ -110,7 +116,9 @@ class _RentPostPageState extends State<RentPostPage> {
                 );
               }
 
-              return const SizedBox();
+              return const SizedBox(
+                child: Text("hi"),
+              );
             },
           ),
         )
