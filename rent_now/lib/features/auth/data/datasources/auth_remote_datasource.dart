@@ -1,5 +1,3 @@
-//interface
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -12,20 +10,18 @@ import 'package:rent_now/network/network_manager.dart';
 import 'package:rent_now/network/network_request.dart';
 
 abstract interface class AuthRemoteDataSource {
-  // interface function for login with email and password
-  Future<UserModel> loginWithEmailAndPassword(
-      {required String username, required String password});
+  Future<UserModel> loginWithEmailAndPassword({
+    required String username,
+    required String password,
+  });
 
-  // interface function for register with email and password
-
-  Future<UserModel> registerWithEmailAndPassword(
-      {required String username,
-      required String email,
-      required String password,
-      required String password2});
+  Future<UserModel> registerWithEmailAndPassword({
+    required String username,
+    required String email,
+    required String password,
+    required String password2,
+  });
 }
-
-// We are going to impelement this interface in the data source layer
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
   final BaseService base;
@@ -33,8 +29,10 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
   AuthRemoteDatasourceImpl(this.base);
 
   @override
-  Future<UserModel> loginWithEmailAndPassword(
-      {required String username, required String password}) async {
+  Future<UserModel> loginWithEmailAndPassword({
+    required String username,
+    required String password,
+  }) async {
     try {
       var data = {
         "username": username,
@@ -49,14 +47,15 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
       );
 
       final result = await NetworkManager.instance.perform<UserModel>(request);
+
+      // Add log to print the result
+      log("Login Response: ${result.json}");
+
       if (result.error != null) {
-        log("I am here");
         throw ServerExceptionRentNow(result.error!.errorMsg);
       }
 
-      var userMap = result.json;
-
-      return UserModel.fromJson(userMap);
+      return UserModel.fromMap(result.json);
     } on ApplicationError catch (e) {
       throw ServerExceptionRentNow(e.errorMsg);
     } on ServerExceptionRentNow catch (e) {
@@ -68,17 +67,18 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> registerWithEmailAndPassword(
-      {required String username,
-      required String email,
-      required String password,
-      required String password2}) async {
+  Future<UserModel> registerWithEmailAndPassword({
+    required String username,
+    required String email,
+    required String password,
+    required String password2,
+  }) async {
     try {
       var data = {
         "username": username,
         "email": email,
         "password": password,
-        "password2": password2
+        "password2": password2,
       };
 
       NetworkRequest request = NetworkRequest(
@@ -90,13 +90,16 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
 
       final result = await NetworkManager.instance.perform<UserModel>(request);
 
-      if (result.json != null && result.error == null) {
-        var userMap = result.json;
+      // Add log to print the result
+      log("Register Response: ${result.json}");
 
-        return UserModel.fromJson(userMap);
+      if (result.json != null && result.error == null) {
+        return UserModel.fromMap(result.json);
       } else {
         throw ServerExceptionRentNow(result.error!.errorMsg);
       }
+    } on ApplicationError catch (e) {
+      throw ServerExceptionRentNow(e.errorMsg);
     } on ServerExceptionRentNow catch (e) {
       throw ServerExceptionRentNow(e.message);
     } catch (e) {
